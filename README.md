@@ -32,6 +32,7 @@ A total conversion mod for Alien vs. Predator Classic that remakes the 1997 Play
 
 [https://github.com/Thor110/AlienTrilogyResurrection](https://github.com/Thor110/AlienTrilogyResurrection)
 
+[https://www.moddb.com/news/alien-trilogy-resurrection](https://www.moddb.com/news/alien-trilogy-resurrection)
 
 Aliens vs Predator  http://icculus.org/avp/
 ------------------------
