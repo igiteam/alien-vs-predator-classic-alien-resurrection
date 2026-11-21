@@ -18,7 +18,7 @@ A total conversion mod for Alien vs. Predator Classic that remakes the 1997 Play
 
 | PlayStation (240p, 4:3) | This port (16:9, 3x resolution, precision geometry) |
 | --- | --- |
-| ![The original picture]([docs/media/](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/main/AlienReRecomp/docs/media/compare_original.jpg) | ![The same frame in the port]([docs/media/](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/main/AlienReRecomp/docs/media/compare_port.jpg) |
+| ![The original picture](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/main/AlienReRecomp/docs/media/compare_original.jpg) | ![The same frame in the port](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/main/AlienReRecomp/docs/media/compare_port.jpg) |
 
 
 
