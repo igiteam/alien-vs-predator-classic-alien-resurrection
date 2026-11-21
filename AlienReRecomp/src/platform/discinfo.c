@@ -1,0 +1,132 @@
+#include "discinfo.h"
+
+#include <dirent.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/stat.h>
+
+#include "../runtime/iso.h"
+#include "../runtime/psx.h"
+
+static bool has_ext(const char *name, const char *ext) {
+    size_t l = strlen(name), e = strlen(ext);
+    return l > e && !strcasecmp(name + l - e, ext);
+}
+
+/* Does the cue sheet at `cue` reference a track file called `bin`? */
+static bool cue_mentions(const char *cue, const char *bin) {
+    FILE *f = fopen(cue, "r");
+    if (!f)
+        return false;
+    char line[1024];
+    bool found = false;
+    while (!found && fgets(line, sizeof line, f))
+        found = strncmp(line, "FILE", 4) == 0 && strstr(line, bin) != NULL;
+    fclose(f);
+    return found;
+}
+
+/* First cue sheet in `dir` (referencing `bin` if given). */
+static bool cue_in_dir(const char *dir, const char *bin, char *out, size_t n) {
+    DIR *d = opendir(dir);
+    if (!d)
+        return false;
+    struct dirent *e;
+    bool found = false;
+    while (!found && (e = readdir(d))) {
+        if (e->d_name[0] == '.' || !has_ext(e->d_name, ".cue"))
+            continue;
+        snprintf(out, n, "%s/%s", dir, e->d_name);
+        found = !bin || cue_mentions(out, bin);
+    }
+    closedir(d);
+    return found;
+}
+
+static bool resolve_rel(const char *path, char *cue, size_t n);
+
+/* Resolved cue path, made absolute so config.ini works from any folder. */
+bool disc_resolve(const char *path, char *cue, size_t n) {
+    char tmp[1024];
+    if (!resolve_rel(path, tmp, sizeof tmp))
+        return false;
+    char abs[4096];
+#ifdef _WIN32
+    snprintf(cue, n, "%s", _fullpath(abs, tmp, sizeof abs) ? abs : tmp);
+#else
+    snprintf(cue, n, "%s", realpath(tmp, abs) ? abs : tmp);
+#endif
+    return true;
+}
+
+static bool resolve_rel(const char *path, char *cue, size_t n) {
+    struct stat st;
+    if (!path || !*path || stat(path, &st))
+        return false;
+    if (S_ISDIR(st.st_mode))
+        return cue_in_dir(path, NULL, cue, n);
+    if (has_ext(path, ".cue")) {
+        snprintf(cue, n, "%s", path);
+        return true;
+    }
+    /* a track file: find the cue sheet next to it that uses it */
+    char dir[1024];
+    snprintf(dir, sizeof dir, "%s", path);
+    char *slash = (char *)path_last_sep(dir);
+    const char *base = slash ? path + (slash - dir) + 1 : path;
+    if (slash)
+        *slash = 0;
+    else
+        snprintf(dir, sizeof dir, ".");
+    char bin[256];
+    snprintf(bin, sizeof bin, "%s", base);
+    return cue_in_dir(dir, bin, cue, n);
+}
+
+DiscStatus disc_check(const char *path, char *cue, size_t cue_n, char *msg, size_t msg_n) {
+    if (!path || !*path) {
+        snprintf(msg, msg_n, "No disc image selected.");
+        return DISC_NONE;
+    }
+    if (!disc_resolve(path, cue, cue_n)) {
+        snprintf(msg, msg_n, "No .cue sheet found for the selected file.");
+        return DISC_NOT_FOUND;
+    }
+    if (!disc_open(cue)) {
+        snprintf(msg, msg_n, "Cannot read the disc image (missing track files?).");
+        return DISC_UNREADABLE;
+    }
+    uint32_t lba, size;
+    char cnf[2048 + 1];
+    if (!iso_find("SYSTEM.CNF", &lba, &size) || size > 2048 || !iso_read(lba, (uint8_t *)cnf, size)) {
+        disc_close();
+        snprintf(msg, msg_n, "This is not a PlayStation game disc.");
+        return DISC_UNREADABLE;
+    }
+    cnf[size] = 0;
+    /* USA (SLUS-00633) or Europe (SLES-02913), runtime/region.c */
+    if (!region_from_cnf(cnf)) {
+        char boot[64] = "?";
+        const char *b = strstr(cnf, "cdrom:");
+        if (b) {
+            b += 6;
+            while (*b == '\\')
+                b++;
+            size_t i = 0;
+            while (b[i] && b[i] != ';' && b[i] != '\r' && b[i] != '\n' && i < sizeof boot - 1)
+                boot[i] = b[i], i++;
+            boot[i] = 0;
+        }
+        disc_close();
+        snprintf(msg, msg_n,
+                 "Unsupported disc (%s). This port needs Alien Resurrection, USA (SLUS-00633) "
+                 "or Europe (SLES-02913).",
+                 boot);
+        return DISC_WRONG_GAME;
+    }
+    snprintf(msg, msg_n, "%s", region_name());
+    return DISC_OK;
+}

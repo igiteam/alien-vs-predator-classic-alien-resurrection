@@ -1,0 +1,172 @@
+# Builds the release packages. They contain no game code or data: players
+# point the app at their own Alien Resurrection (USA) disc image, and the
+# game's code is interpreted from it (GAME_CODE=interpreted). That is also
+# why no disc image is needed here.
+#
+# Runs for every pull request into main, every push to main, on demand
+# (Actions > Build and release > Run workflow) and for version tags (v*).
+#
+# Pull requests: the three builds ("Build (macOS)", "Build (Windows)",
+# "Build (Linux)") are required status checks of main, so nothing that
+# fails to build can be merged.
+#
+# Releases: each merged pull request gets the next version, the highest vX.Y.Z
+# tag with the patch number raised (tools/next_version.sh), stamped into the
+# build. This workflow tags the merge and creates a *draft* GitHub release
+# "ARR v<version>" with the three packages, the notes from
+# packaging/RELEASE_NOTES.md and the pull requests since the last release;
+# review and publish it by hand. A direct push to main releases nothing; running
+# this workflow by hand on main releases it. Pushing a vX.Y.Z tag by hand
+# releases that commit as that version, which is how to raise major or minor.
+# Pre-releases of feature branches (v*-pre-* tags) are made by pre-release.yml.
+name: Build and release
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ["v*", "!v*-pre*"]
+
+permissions:
+  contents: read
+
+# a new push to a pull request replaces its running builds; main runs one at a
+# time, so two merges cannot take the same version
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  version:
+    name: Version
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: read # whether a push to main is a merge
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      release: ${{ steps.v.outputs.release }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # the existing tags
+      - name: Version and whether to release it
+        id: v
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(tools/next_version.sh)
+          release=false
+          case "$GITHUB_REF" in
+          refs/heads/main)
+            if git tag --points-at HEAD | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+              echo "::notice::this commit is already released"
+            elif [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+              release=true
+            elif [ "$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/pulls" --jq '[.[] | select(.merged_at)] | length')" != 0 ]; then
+              release=true
+            else
+              echo "::notice::direct push, not released"
+            fi ;;
+          refs/tags/v*)
+            version=${GITHUB_REF_NAME#v}
+            if ! [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::error::tag $GITHUB_REF_NAME is not vMAJOR.MINOR.PATCH"
+              exit 1
+            fi
+            release=true ;;
+          esac
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "release=$release" >> "$GITHUB_OUTPUT"
+          echo "version $version, release: $release"
+
+  macos:
+    name: Build (macOS)
+    needs: version
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Stamp the version
+        run: sh tools/set_version.sh ${{ needs.version.outputs.version }}
+      - name: Tools
+        run: brew install ninja
+      - name: Build AlienResurrection.app (universal)
+        run: tools/build_macos_app.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: macos
+          path: build-mac/release/*.zip
+          retention-days: 14
+
+  windows:
+    name: Build (Windows)
+    needs: version
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Stamp the version
+        run: sh tools/set_version.sh ${{ needs.version.outputs.version }}
+      - name: Tools
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64 cmake ninja-build zip
+      - name: Build AlienResurrection.exe (cross-compiled)
+        run: tools/build_windows.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows
+          path: build-win/release/*.zip
+          retention-days: 14
+
+  linux:
+    name: Build (Linux)
+    needs: version
+    runs-on: ubuntu-24.04
+    # Ubuntu 22.04 (glibc 2.35) so the program also runs on older systems
+    container: ubuntu:22.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Stamp the version
+        run: sh tools/set_version.sh ${{ needs.version.outputs.version }}
+      - name: Tools and SDL3 build dependencies
+        run: sh tools/linux/install_deps_ubuntu.sh
+      - name: Build AlienResurrection (x86_64)
+        run: sh tools/build_linux.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux
+          path: build-linux-x86_64/release/*.tar.gz
+          retention-days: 14
+
+  release:
+    name: Release
+    if: needs.version.outputs.release == 'true'
+    needs: [version, macos, windows, linux]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write # the tag and the draft release
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+      - name: Tag the merge
+        if: github.ref == 'refs/heads/main'
+        env:
+          TAG: v${{ needs.version.outputs.version }}
+        run: |
+          # pushed with the workflow's token, so it does not start this
+          # workflow again
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              tag -a "$TAG" -m "ARR $TAG" "$GITHUB_SHA"
+          git push origin "refs/tags/$TAG"
+      - name: Draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v${{ needs.version.outputs.version }}
+        run: |
+          gh release create "$TAG" --draft --verify-tag \
+            --title "ARR $TAG" \
+            --notes-file packaging/RELEASE_NOTES.md --generate-notes \
+            dist/macos/*.zip dist/windows/*.zip dist/linux/*.tar.gz
