@@ -1,3 +1,38 @@
+# alien-vs-predator-classic-alien-resurrection
+## Bloodrayne - Underworld Trilogy
+A total conversion mod for Bloodrayne that rebuilds the story-driven Underworld (2003) · Underworld: Evolution (2006) ·  Underworld: Awakening (2012) 
+
+## Github Treeview
+[https://treegit.macosxjs.com/?url=igiteam/alien-vs-predator-classic-alien-resurrection](https://treegit.macosxjs.com/?url=igiteam/alien-vs-predator-classic-alien-resurrection)
+
+## Github Tree Api Direct JSON
+[https://api.github.com/repos/igiteam/alien-vs-predator-classic-alien-resurrection/git/trees/main?recursive=1](https://api.github.com/repos/igiteam/alien-vs-predator-classic-alien-resurrection/git/trees/main?recursive=1)
+
+## Base gameplay
+[![Alien Trilogy PC Engine Reimplementation - Work in Progress (WIP) Preview 8](https://img.youtube.com/vi/M2Z7rfj6iK4/maxresdefault.jpg)](https://ytembed.macosxjs.com/?TTJaN3JmajZpSzQ)
+
+[![Aliens vs Predator Classic | Source port | NakedAVP | Mouse sens problem](https://img.youtube.com/vi/SrkLpqG5l1E/maxresdefault.jpg)](https://ytembed.macosxjs.com/?U3JrTHBxRzVsMUU)
+
+
+| PlayStation (240p, 4:3) | This port (16:9, 3x resolution, precision geometry) |
+| --- | --- |
+| ![The original picture](docs/media/compare_original.jpg) | ![The same frame in the port](docs/media/compare_port.jpg) |
+
+
+## WS11WineCX20.0.4 (MacOSX Big Sur 32bit)
+[WS11WineCX20.0.4.tar.7z](https://github.com/vitor251093/porting-kit-engines/releases/download/wineskin/WS11WineCX20.0.4.tar.7z)
+
+[![wine windows games on macosx](https://raw.githubusercontent.com/igiteam/igi1-macbook-3d-workstation/refs/heads/main/wine-engine-config.png)](https://github.com/igiteam/wine_engines)
+
+
+## Reference links
+[https://github.com/lemiur/alien-trilogy-decomp](https://github.com/lemiur/alien-trilogy-decomp)
+
+[https://github.com/DiegoDeDios/AlienReRecomp](https://github.com/DiegoDeDios/AlienReRecomp)
+
+[https://github.com/Thor110/AlienTrilogyResurrection](https://github.com/Thor110/AlienTrilogyResurrection)
+
+
 Aliens vs Predator  http://icculus.org/avp/
 ------------------------
 
@@ -291,3 +326,39 @@ Part 5: Gibbon's Additions
 Gibbon has implemented SDL3, performed code cleanups and fixed various crashes and stack smashing issues on Linux.
 
 The future is bright for this port, like all my projects I am aiming for this to be portable to 'everything', which in its current state, it is.  It works on Windows, macOS and GNU/Linux, making this port the 'only' AvP Classic source port that runs on all three main Operating Sytstems.  It is also, of course, the best one :P
+
+
+
+## Dev Environment
+
+**Official White Wii Remote With Nunchuk — Tested And Working — £14.99**
+[https://www.ebay.co.uk/itm/800847189353](https://www.ebay.co.uk/itm/800847189353)
+
+**Infrared Sensor Bar USB for Wii Emulator Remote Motion Detection Setup — £6.69**
+[https://www.ebay.co.uk/itm/227423830875](https://www.ebay.co.uk/itm/227423830875)
+
+**Apple MacBook Pro Retina 15in (2014) i7 2.8GHz 16GB 1TB SSD GT 750M — £120.30**
+[https://www.ebay.co.uk/itm/800844561513](https://www.ebay.co.uk/itm/800844561513)
+
+**WS11WineCX20.0.4 (Wine engine)**
+[https://igiteam.github.io/wine_engines/](https://igiteam.github.io/wine_engines/)
+
+**Official Genuine Sony PS3 PlayStation 3 DualShock 3 Wireless Controller Black — £19.99**
+[https://www.ebay.co.uk/itm/840031043465](https://www.ebay.co.uk/itm/840031043465)
+
+**Amazon Basics 4K HDMI Cable 3m — 18Gbps High Speed with Ethernet, 4K@60Hz, 2160p — £8.44**
+[https://www.ebay.co.uk/itm/327352257557](https://www.ebay.co.uk/itm/327352257557)
+
+**wiimote_nunchuk_macosx**
+[https://github.com/igiteam/wiimote-nunchuk](https://github.com/igiteam/wiimote-nunchuk)
+
+**xbox360_input_gui_py**
+[https://github.com/igiteam/xbox360_input_gui_py](https://github.com/igiteam/xbox360_input_gui_py)
+
+**logitec_mx_mouse_3_macos**
+[https://github.com/igiteam/logitec_mx_mouse_3_macos](https://github.com/igiteam/logitec_mx_mouse_3_macos)
+
+**igi1-macbook-3d-workstation**
+[https://github.com/igiteam/igi1-macbook-3d-workstation](https://github.com/igiteam/igi1-macbook-3d-workstation)
+
+---
