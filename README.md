@@ -1,6 +1,7 @@
 # alien-vs-predator-classic-alien-resurrection
 ## Bloodrayne - Underworld Trilogy
-A total conversion mod for Bloodrayne that rebuilds the story-driven Underworld (2003) · Underworld: Evolution (2006) ·  Underworld: Awakening (2012) 
+A total conversion mod for Alien vs. Predator Classic that remakes the 1997 PlayStation game Alien Resurrection, recreating its levels, environments, enemies, weapons, and survival-horror atmosphere in the classic Alien vs. Predator engine.
+
 
 ## Github Treeview
 [https://treegit.macosxjs.com/?url=igiteam/alien-vs-predator-classic-alien-resurrection](https://treegit.macosxjs.com/?url=igiteam/alien-vs-predator-classic-alien-resurrection)
