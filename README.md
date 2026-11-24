@@ -36,6 +36,8 @@ A total conversion mod for Alien vs. Predator Classic that remakes the 1997 Play
 
 [https://archive.org/details/AvP1999](https://archive.org/details/AvP1999)
 
+[https://github.com/igiteam/alien-vs-predator-classic-alien-resurrection/releases/tag/avp_editing_tools](https://github.com/igiteam/alien-vs-predator-classic-alien-resurrection/releases/tag/avp_editing_tools)
+
 [https://vimm.net/vault/6088](https://vimm.net/vault/6088)
 
 [https://github.com/Thor110/AlienTrilogyResurrection](https://github.com/Thor110/AlienTrilogyResurrection)
