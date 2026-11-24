@@ -15,6 +15,7 @@ A total conversion mod for Alien vs. Predator Classic that remakes the 1997 Play
 
 ![Alien Resurrection PSX](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/main/AlienReRecomp/docs/media/enemy_damage.webp)
 
+[![AVP Editor](https://i.ytimg.com/vi/jFebF5elAS8/hqdefault.jpg)](https://www.youtube.com/playlist?list=PLb8oNKiUbnjGUc3_ec-BWBKfnYt3igEcd)
 
 | PlayStation (240p, 4:3) | This port (16:9, 3x resolution, precision geometry) |
 | --- | --- |
@@ -36,6 +37,10 @@ A total conversion mod for Alien vs. Predator Classic that remakes the 1997 Play
 [https://github.com/Thor110/AlienTrilogyResurrection](https://github.com/Thor110/AlienTrilogyResurrection)
 
 [https://www.moddb.com/news/alien-trilogy-resurrection](https://www.moddb.com/news/alien-trilogy-resurrection)
+
+[avp editor tutorials](https://www.youtube.com/playlist?list=PLb8oNKiUbnjGUc3_ec-BWBKfnYt3igEcd)
+
+---
 
 Aliens vs Predator  http://icculus.org/avp/
 ------------------------
