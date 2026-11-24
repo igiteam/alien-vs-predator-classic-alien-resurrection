@@ -34,17 +34,33 @@ A total conversion mod for Alien vs. Predator Classic that remakes the 1997 Play
 
 [https://github.com/DiegoDeDios/AlienReRecomp](https://github.com/DiegoDeDios/AlienReRecomp)
 
+[https://archive.org/details/AvP1999](https://archive.org/details/AvP1999)
+
+[https://vimm.net/vault/6088](https://vimm.net/vault/6088)
+
 [https://github.com/Thor110/AlienTrilogyResurrection](https://github.com/Thor110/AlienTrilogyResurrection)
 
 [https://www.moddb.com/news/alien-trilogy-resurrection](https://www.moddb.com/news/alien-trilogy-resurrection)
 
 [avp editor tutorials](https://www.youtube.com/playlist?list=PLb8oNKiUbnjGUc3_ec-BWBKfnYt3igEcd)
 
+[https://sites.google.com/site/avpclassic2000/downloadable-content](https://sites.google.com/site/avpclassic2000/downloadable-content)
+
+[https://www.avpunknown.com/cgi-bin/YaBB.pl?board=avpclassic](https://www.avpunknown.com/cgi-bin/YaBB.pl?board=avpclassic)
+
+[https://www.avpunknown.com/games/1990/aliensvspredator](https://www.avpunknown.com/games/1990/aliensvspredator)
+
 [https://www.moddb.com/games/aliens-vs-predator/mods](https://www.moddb.com/games/aliens-vs-predator/mods)
 
 [https://www.moddb.com/games/aliens-vs-predator/tutorials/modding-tools-setup-with-avp-classic-2000-only-no-gold-edition](https://www.moddb.com/games/aliens-vs-predator/tutorials/modding-tools-setup-with-avp-classic-2000-only-no-gold-edition)
 
 ![https://media.moddb.com/images/members/4/3113/3112273/profile/Leadworks.png](https://media.moddb.com/images/members/4/3113/3112273/profile/Leadworks.png)
+
+![https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/refs/heads/main/avp-classic-rim.jpg](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/refs/heads/main/avp-classic-rim.jpg)
+
+[![AVP 1999](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/refs/heads/main/aliensvspredator99.png)](https://archive.org/details/AvP1999)
+
+[![Alien Resurrection](https://raw.githubusercontent.com/igiteam/alien-vs-predator-classic-alien-resurrection/refs/heads/main/alien-resurrection.png)](https://vimm.net/vault/6088)
 
 ---
 
